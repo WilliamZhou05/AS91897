@@ -1,5 +1,6 @@
 from tkinter import *
 import random
+from PIL import ImageTk, Image
 
 global questions_answers
 names = []
@@ -30,10 +31,15 @@ class QuizStarter:
   def __init__(self,parent):
     background_colour="pink"
     
+    self.bg_image = Image.open("bgimg.png")
+    self.bg_image = self.bg_image.resize((1, 2), Image.ANTIALIAS)
+    self.bg_image = ImageTk.PhotoImage(self.bg_image)
     #creating Frame
-    self.quiz_frame = Frame(parent, bg = background_colour, padx=200, pady=100)
+    self.quiz_frame = Frame(parent)
     self.quiz_frame.grid()
 
+    self.image_label = Label( root, image = bg)
+    self.image_label.place(x = 0, y = 0)  
     #creating Label
     self.head_label = Label(self.quiz_frame, text="Placeholder", bg = background_colour)
     self.head_label.grid(row=0, padx=20, pady=20)
@@ -166,6 +172,7 @@ randomiser()
 
 if __name__=="__main__":
   root=Tk() #creating a window
+  bg = PhotoImage(file = "bgimg.png")
   root.title("Placeholder")
   quiz_instance = QuizStarter(root)
   root.mainloop() #test
