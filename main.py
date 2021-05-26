@@ -1,7 +1,9 @@
 import tkinter as tk
 from functools import partial # a quick way to make a callback function
+from PIL import ImageTk, Image
 
 class Situation(tk.Frame):
+    
     def __init__(self, master=None, story='', buttons=[], **kwargs):
         tk.Frame.__init__(self, master, **kwargs)
 
