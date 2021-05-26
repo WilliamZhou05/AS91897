@@ -1,178 +1,182 @@
-from tkinter import *
-import random
-from PIL import ImageTk, Image
+import tkinter as tk
+from functools import partial # a quick way to make a callback function
 
-global questions_answers
-names = []
-asked = []
-score = 0
-questions_answers = {
-1 : ["What must you do when you see blue and red flashing lights behind you?", "Speed up and get out of the way", "Slow down and drive carefully", "Slow down and stop", "Drive on as usual", "Slow down and stop", 6],
-2 : ["You may stop on a motorway only:", "If there is an emergency", "To let down or pick up passengers", "To make a U turn", "To take a photo", "If there is an emergency", 1],
-3 : ["When coming up to a pedestrian crossing without a raised traffic island, what must you do?", "Speed up before the pedestrians cross", "Stop and give way to a pedestrian on any part of the crossing", "Sound the horn on your vehicle to warn the pedestrians", "Slow down to 30kmh", "Stop and give way to pedestrians on any part of the crossing", 2],
-4 : ["Can you stop on a bus stop in private motor vehicle?", "Only between midnight and 6am", "Under no circumstances", "When dropping off passengers", "Only if its less than 5 minutes", "Under no circumstances", 2],
-5 : ["What is the maximum speed you may drive if you have a 'space saver wheel' fitted? (km/h)", "70 km/h", "100 km/h so you do not hold up traffic", "80 km/h and if the wheel spacer displays the lower limit that applies" "90 km/h", "80 km/h and if the wheel spacer displays the lower limit that applies", 3],
-6 : ["When following another vehicle on a dusty road, you should", "Speed up to get passed", "Turn your vehicles windscreen wipers on", "Stay back from the dust cloud", "Turn vehicle head lights on", "Stay back from the dust cloud", 3],
-7 : ["What does the sign containing letters 'LSZ' mean?", "Low safety zone", "Low stability zone", "Lone star zone", "Limited speed zone", "Limited speed zone", 4],
-8 : ["What speed are you allowed to pass a school bus that has stoppe to let students get on or off?", "20 km/h", "30 km/h", "70 km/h", "10 km/h", "20 km/h", 1],
-9 : ["What is the maximum distance a load may extend in front of a car?", "2 meters forward of the front edge of the seat", "4 meters forward of the front edge of the seat", "3 meters forward of the front edge of the seat", "2.5 meters forward of the front edge of the seat", "3 meters forward of the front edge of the street", 3],
-10 : ["To avoid being blinded by the headlights of another vehicle coming towards you what should you do?", "Look to the left of the road", "Look to the center of the road", "Wear sunglasses that have sufficient strength", "Look to the right side of the road", "Look to the left of the road", 1]
-}
+class Situation(tk.Frame):
+    def __init__(self, master=None, story='', buttons=[], **kwargs):
+        tk.Frame.__init__(self, master, **kwargs)
 
+        story_lbl = tk.Label(self, text=story, justify=tk.LEFT, anchor=tk.NW, font=("Play", 10))
+        story_lbl.pack()
 
-class QuizStarter:
+        for btn_text, new_situation in buttons:
+            btn = tk.Button(self, text=btn_text, command=partial(self.quit_, new_situation))
+            btn.pack()
 
-  def name_collection(self):
-      name=self.entry_box.get()
-      names.append(name)
-      self.quiz_frame.destroy()
-      Quiz(root)
-  
-  def __init__(self,parent):
-    background_colour="pink"
-    
-    self.bg_image = Image.open("bgimg.png")
-    self.bg_image = self.bg_image.resize((1, 2), Image.ANTIALIAS)
-    self.bg_image = ImageTk.PhotoImage(self.bg_image)
-    #creating Frame
-    self.quiz_frame = Frame(parent)
-    self.quiz_frame.grid()
+    def quit_(self, new_situation):
+        self.destroy()
+        load(new_situation)
 
-    self.image_label = Label( root, image = bg)
-    self.image_label.place(x = 0, y = 0)  
-    #creating Label
-    self.head_label = Label(self.quiz_frame, text="Placeholder", bg = background_colour)
-    self.head_label.grid(row=0, padx=20, pady=20)
+def load(situation=None):
+    frame = Situation(root, **SITUATIONS.get(situation))
+    frame.pack()
 
-    #create a Label to ask for the name
-    self.user_label = Label(self.quiz_frame, text="Can you smell what the Rock is cooking?", bg = background_colour)
-    self.user_label.grid(row=1, padx=20, pady=20)
+SITUATIONS = {
+    'situation_1': {
+        'story':
+"""
+    The flip flops made your task a bit more difficult, but in the end you pretend
+you become standing on the top of the hill. Before you stretches
+there is a huge field of cabbage, followed by a submerged one
+the countryside in gray. The cloudy sky seems to be overwhelming
+roofs of houses, and you start to feel uncomfortable ...
 
-    #creating Entry Box
-    self.entry_box = Entry(self.quiz_frame, bg = "bisque")
-    self.entry_box.grid(row=2, padx=20, pady=20)
+What are you doing?
+""",
+        'buttons': [
+            ('you walk to the sign and break the net', 'situation_2v1'),
+            ('youre eating a sandwich', None),
+            ('youre turning back to the woods', None),
+            ('you are approaching a cabbage field', None) # using None until you fill in the correct value
+            ]
+        },
 
-    #creating a Button
-    self.continue_button = Button(self.quiz_frame, text="Continue",bg = "darkorange",command=self.name_collection)
-    self.continue_button.grid(row=3, padx=20 , pady=20)
+    'situation_2': {
+        'story':
+"""
+    The mesh is damp and full of soaked pieces of earth.
+You manage to pull it off with one hand movement, but it gets dirty
+mud on the occasion. Your eyes appear blurred,
+however, the inscription: Tomaszowice is still legible.
 
-class Quiz:
-  def test_progress(self):
-    global score
-    scr_label=self.score_label
-    choice=self.var1.get()
-    if len(asked)>9:
-      if choice == questions_answers[qnum][6]:
-        score+=1
-        scr_label.configure(text=score)
-        self.quiz_instance.config(text="Confirm")
-      else:
-        score+=0
-        scr_label.configure(text="The correct answer was" + questions_asnwers[qnum][5])
-        self.quiz_instance.config(text="Confirm")
-    else:
-      if choice == 0:
-        self.quiz_instance.config(text="Please press a button them submit again")
-        choice=self.var1.get()
-      else:
-        if choice == questions_answers[qnum][6]:
-          score+=1
-          scr_label.configure(text=score)
-          self.quiz_instance.config(text="Confirm")
-        else:
-          score+=0
-          scr_label.configure(text="The correct answer was" + questions_asnwers[qnum][5])
-          self.quiz_instance.config(text="Confirm")
-          
-  def __init__(self,parent):
-    background_colour="blue"
+What are you doing?
+""",
+        'buttons': [
+            ('you go up the hill and look around', None),
+            ('you eat a sandwich', None),
+            ('you turn back towards the forest', None)
+            ]
+        },
 
-    self.quiz_frame = Frame(parent, bg = background_colour, padx=100, pady=100)
-    self.quiz_frame.grid()
+    'situation_3': {
+        'story':
+"""
+    The sandwich has a firm, firm consistency.
+The smell of fresh bread lifts you up,
+and the classic combination of ham and cheese is reminiscent of
+think of a house. You feel ready to go on!
 
-    #questions
-    self.question_label = Label(self.quiz_frame , text = questions_answers[qnum][0],bg = background_colour)
-    self.question_label.grid(row=1 , padx=10 , pady=10)
+What are you doing?
+""",
+        'buttons': [
+            ('you go up the hill and look around', None),
+            ('you walk to the sign and break the net', None),
+            ('youre turning back to the woods', None),
+            ]
+        },
 
-    #holds values for radio buttons
-    self.var1 = IntVar()
+    'situation_4': {
+        'story':
+""" You take a few steps towards the tree line, but
+some mysterious force prevents you from overcoming it.
+You feel powerless. You finally turn back
+towards the place where you just stood.
 
-    #radio button 1
-    self.rb1 = Radiobutton(self.quiz_frame , text = questions_answers[qnum][1] , bg=background_colour , value=1 , padx=10 , pady=10 , variable = self.var1 , indicator = 0 , background = background_colour)
-    self.rb1.grid(row=2 , sticky=W)
-
-    #radio button 2
-    self.rb1 = Radiobutton(self.quiz_frame , text = questions_answers[qnum][2] , bg=background_colour , value=2 , padx=10 , pady=10 , variable = self.var1 , indicator = 0 , background = "light blue")
-    self.rb1.grid(row=3 , sticky=W)
-    
-    #radio button 3
-    self.rb1 = Radiobutton(self.quiz_frame , text = questions_answers[qnum][3] , bg=background_colour , value=3 , padx=10 , pady=10 , variable = self.var1 , indicator = 0 , background = "light blue")
-    self.rb1.grid(row=4 , sticky=W)
-    
-    #radio button 4
-    self.rb1 = Radiobutton(self.quiz_frame , text = questions_answers[qnum][4] , bg=background_colour , value=4 , padx=10 , pady=10 , variable = self.var1 , indicator = 0 , background = "light blue")
-    self.rb1.grid(row=5 , sticky=W)
-
-    #confirm Button
-    self.quiz_instance = Button(self.quiz_frame , text = "Confirm" , bg=background_colour, command=self.test_progress)
-    self.quiz_instance.grid(row=7 , padx=5 , pady=5)
-
-    #score Label
-    self.score_label = Label(self.quiz_frame , text = "Score" , bg=background_colour)
-    self.score_label.grid(row=8 , padx=10 , pady=1)
-
-def questions_setup(self):
-  
-  randomiser()
-  self.var1.set(0)
-  self.question_label.config(text=questions_answes[qnum][0])
-  self.rb1.config(test=questions_answers[qnum][1])
-  self.rb2.config(test=questions_answers[qnum][2])
-  self.rb3.config(test=questions_answers[qnum][3])
-  self.rb4.config(test=questions_answers[qnum][4])
-
-def test_progress(self):
-  global score
-  scr_label=self.score_label
-  choice=self.var1.get()
-  if len(asked)>9:
-    if choice == questions_answers[qnum][6]:
-      score+=1
-      scr_label.configure(text=score)
-      self.quiz_instance.config(text="Confirm")
-    else:
-      score+=0
-      scr_label.configure(text="The correct answer was" + questions_asnwers[qnum][5])
-      self.quiz_instance.config(text="Confirm")
-  else:
-    if choice == 0:
-      self.quiz_instance.config(text="Please press a button them submit again")
-      choice=self.var1.get()
-    else:
-      if choice == questions_answers[qnum][6]:
-        score+=1
-        scr_label.configure(text=score)
-        self.quiz_instance.config(text="Confirm")
-      else:
-        score+=0
-        scr_label.configure(text="The correct answer was" + questions_asnwers[qnum][5])
-        self.quiz_instance.config(text="Confirm")
-
-def randomiser():
-  global qnum 
-  qnum = random.randint(1,10) 
-  if qnum not in asked:
-    asked.append(qnum)
-  elif qnum in asked:
-    randomiser()
-
-randomiser()
+What are you doing?
+""",
+        'buttons': [
+            ('you go up the hill and look around', None),
+            ('you go to the sign and break the net', 'situation_2v3'),
+            ('youre eating a sandwich', None),
+            ]
+        },
 
 
+    'situation_2v1': {
+        'story':
 
-if __name__=="__main__":
-  root=Tk() #creating a window
-  bg = PhotoImage(file = "bgimg.png")
-  root.title("Placeholder")
-  quiz_instance = QuizStarter(root)
-  root.mainloop() #test
+""", The mesh is damp and full of soaked debris.
+You manage to pull it off with one hand movement, but it gets dirty
+mud on the occasion. Your eyes appear blurred,
+however, the inscription: Tomaszowice is still legible.
+
+What are you doing?
+""",
+        'buttons': [
+            ('youre eating a sandwich', None),
+            ('youre turning back to the woods', None),
+            ('you are approaching a cabbage field', None),
+            ]
+        },
+
+    'situation_2v2': {
+        'story':
+"""
+    The mesh is damp and full of soaked pieces of earth.
+You manage to pull it off with one hand movement, but it gets dirty
+mud on the occasion. Your eyes appear blurred,
+however, the inscription: Tomaszowice is still legible.
+
+What are you doing?
+""",
+        'buttons': [
+            ('you go up the hill and look around', None),
+            ('youre turning back to the woods', None),
+            ]
+        },
+
+    'situation_2v3': {
+        'story':
+"""
+    The mesh is damp and full of soaked pieces of earth.
+You manage to pull it off with one hand movement, but it gets dirty
+mud on the occasion. Your eyes appear blurred,
+however, the inscription: Tomaszowice is still legible.
+
+What are you doing?
+""",
+        'buttons': [
+            ('you go up the hill and look around', None),
+            ('youre eating a sandwich', None),
+            ]
+        },
+
+    None: { # I named 'beginning' as None so that all the unassigned buttons use it
+        'story':
+""",
+    You are standing in the middle of a country road overgrown with weeds.
+There is a forest behind you and a hill in front of you.
+At his feet there is a sign, partially obscured by a piece of dirty dirt
+mesh. You can't tell from here what's on the other
+side of the hill. You guess you're here coming out of the woods
+but you feel a pain in your head when you try to remember something.
+It looks like rain and you are wearing only a light tracksuit and flip flops.
+In your sweatshirt pocket you can smell a ham and cheese sandwich. The wind is menacing
+rocks the trees and the net on the sign breaks out encouragingly towards you.
+
+Co robisz?
+""",
+        'buttons': [
+            ('you go up the hill and look around', 'situation_1'),
+            ('you approach the sign and break the net off it', 'situation_2'),
+            ('you eat a sandwich', 'situation_3'),
+            ('you turn back towards the forest', 'situation_4'),
+            ]
+        },
+
+    }
+
+def beginning():
+    start_button.destroy()
+    load() # load the first story
+
+#WINDOW
+root = tk.Tk()
+root.geometry('500x500-500-300')
+root.title('The Adventure')
+
+#START
+start_button = tk.Button(root, text="START", command=beginning)
+start_button.place(relx=.5, rely=.5, anchor='c')
+
+#THE LOOP
+root.mainloop()
