@@ -1,9 +1,7 @@
 import tkinter as tk
 from functools import partial # a quick way to make a callback function
-from PIL import ImageTk, Image
 
 class Situation(tk.Frame):
-    
     def __init__(self, master=None, story='', buttons=[], **kwargs):
         tk.Frame.__init__(self, master, **kwargs)
 
@@ -24,7 +22,7 @@ def load(situation=None):
 
 SITUATIONS = {
     'situation_1': {
-        'story':
+        'story':                                                                        
 """
     The flip flops made your task a bit more difficult, but in the end you pretend
 you become standing on the top of the hill. Before you stretches
