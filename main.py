@@ -3,16 +3,17 @@ from functools import partial # a quick way to make a callback function
 
 font_colour = "#00ffff"
 border_colour = "#00ffff"
+background_colour = "#000000"
 
 class Situation(tk.Frame):
-    def __init__(self, master=None, story='', buttons=[], **kwargs):
+    def __init__(self, master = None, story = '', buttons = [], **kwargs):
         tk.Frame.__init__(self, master, **kwargs)
 
-        story_lbl = tk.Label(self, text=story, justify=tk.LEFT, anchor=tk.NW, font=("Play", 10))
+        story_lbl = tk.Label(self, text = story, bg = background_colour, fg = font_colour, justify = tk.LEFT, anchor = tk.NW, font = ("Play", 10))
         story_lbl.pack()
 
         for btn_text, new_situation in buttons:
-            btn = tk.Button(self, text=btn_text, fg=font_colour, command=partial(self.quit_, new_situation))
+            btn = tk.Button(self, text = btn_text, fg = font_colour, command = partial(self.quit_, new_situation))
             btn.pack()
             
 
@@ -20,7 +21,7 @@ class Situation(tk.Frame):
         self.destroy()
         load(new_situation)
 
-def load(situation=None):
+def load(situation = None):
     frame = Situation(root, **SITUATIONS.get(situation))
     frame.pack()
     
@@ -176,8 +177,8 @@ root.title('The Adventure')
 
 
 #START
-start_button = tk.Button(root, text="START", command=beginning)
-start_button.place(relx=.5, rely=.5, anchor='c')
+start_button = tk.Button(root, text = "START", command = beginning)
+start_button.place(relx = .5, rely = .5, anchor = 'c')
 
 #THE LOOP
 root.mainloop()
