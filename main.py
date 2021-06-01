@@ -13,7 +13,7 @@ class Situation(tk.Frame):
         story_lbl.pack()
 
         for btn_text, new_situation in buttons:
-            btn = tk.Button(self, text = btn_text, fg = font_colour, command = partial(self.quit_, new_situation))
+            btn = tk.Button(self, text = btn_text, bg = background_colour, fg = font_colour, command = partial(self.quit_, new_situation))
             btn.pack()
             
 
