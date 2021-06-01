@@ -1,6 +1,9 @@
 import tkinter as tk
 from functools import partial # a quick way to make a callback function
 
+font_colour = "#00ffff"
+border_colour = "#00ffff"
+
 class Situation(tk.Frame):
     def __init__(self, master=None, story='', buttons=[], **kwargs):
         tk.Frame.__init__(self, master, **kwargs)
@@ -9,8 +12,9 @@ class Situation(tk.Frame):
         story_lbl.pack()
 
         for btn_text, new_situation in buttons:
-            btn = tk.Button(self, text=btn_text, command=partial(self.quit_, new_situation))
+            btn = tk.Button(self, text=btn_text, fg=font_colour, command=partial(self.quit_, new_situation))
             btn.pack()
+            
 
     def quit_(self, new_situation):
         self.destroy()
@@ -19,12 +23,12 @@ class Situation(tk.Frame):
 def load(situation=None):
     frame = Situation(root, **SITUATIONS.get(situation))
     frame.pack()
+    
 
 SITUATIONS = {
     'situation_1': {
         'story':                                                                        
-"""
-    The flip flops made your task a bit more difficult, but in the end you pretend
+"""The flip flops made your task a bit more difficult, but in the end you pretend
 you become standing on the top of the hill. Before you stretches
 there is a huge field of cabbage, followed by a submerged one
 the countryside in gray. The cloudy sky seems to be overwhelming
@@ -42,8 +46,7 @@ What are you doing?
 
     'situation_2': {
         'story':
-"""
-    The mesh is damp and full of soaked pieces of earth.
+"""The mesh is damp and full of soaked pieces of earth.
 You manage to pull it off with one hand movement, but it gets dirty
 mud on the occasion. Your eyes appear blurred,
 however, the inscription: Tomaszowice is still legible.
@@ -59,8 +62,7 @@ What are you doing?
 
     'situation_3': {
         'story':
-"""
-    The sandwich has a firm, firm consistency.
+"""The sandwich has a firm, firm consistency.
 The smell of fresh bread lifts you up,
 and the classic combination of ham and cheese is reminiscent of
 think of a house. You feel ready to go on!
@@ -94,7 +96,7 @@ What are you doing?
     'situation_2v1': {
         'story':
 
-""", The mesh is damp and full of soaked debris.
+"""The mesh is damp and full of soaked debris.
 You manage to pull it off with one hand movement, but it gets dirty
 mud on the occasion. Your eyes appear blurred,
 however, the inscription: Tomaszowice is still legible.
@@ -126,8 +128,7 @@ What are you doing?
 
     'situation_2v3': {
         'story':
-"""
-    The mesh is damp and full of soaked pieces of earth.
+"""The mesh is damp and full of soaked pieces of earth.
 You manage to pull it off with one hand movement, but it gets dirty
 mud on the occasion. Your eyes appear blurred,
 however, the inscription: Tomaszowice is still legible.
@@ -142,8 +143,7 @@ What are you doing?
 
     None: { # I named 'beginning' as None so that all the unassigned buttons use it
         'story':
-""",
-    You are standing in the middle of a country road overgrown with weeds.
+"""You are standing in the middle of a country road overgrown with weeds.
 There is a forest behind you and a hill in front of you.
 At his feet there is a sign, partially obscured by a piece of dirty dirt
 mesh. You can't tell from here what's on the other
@@ -153,7 +153,7 @@ It looks like rain and you are wearing only a light tracksuit and flip flops.
 In your sweatshirt pocket you can smell a ham and cheese sandwich. The wind is menacing
 rocks the trees and the net on the sign breaks out encouragingly towards you.
 
-Co robisz?
+Whachu doin?
 """,
         'buttons': [
             ('you go up the hill and look around', 'situation_1'),
@@ -173,6 +173,7 @@ def beginning():
 root = tk.Tk()
 root.geometry('500x500-500-300')
 root.title('The Adventure')
+
 
 #START
 start_button = tk.Button(root, text="START", command=beginning)
