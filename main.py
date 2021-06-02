@@ -1,20 +1,22 @@
-import tkinter as tk
+from tkinter import *
 from functools import partial # a quick way to make a callback function
 
-font_colour = "#00ffff"
-border_colour = "#00ffff"
-background_colour = "#000000"
+ftc = "#00ffff"
+bdc = "#00ffff"
+bgc = "#000000"
 
-class Situation(tk.Frame):
-    def __init__(self, master = None, story = '', buttons = [], **kwargs):
-        tk.Frame.__init__(self, master, **kwargs)
+class Situation:
+    def __init__(self, parent, story = '', buttons = []):
+        self.frame = Frame(parent, bg=bgc)
+        self.frame.grid()
 
-        story_lbl = tk.Label(self, text = story, bg = background_colour, fg = font_colour, justify = tk.LEFT, anchor = tk.NW, font = ("Play", 10))
-        story_lbl.pack()
+        self.story_lbl = Label(self, text = story, bg = bgc, fg = ftc, font = ("Play", 10))
+        self.story_lbl.pack()
 
         for btn_text, new_situation in buttons:
-            btn = tk.Button(self, text = btn_text, bg = background_colour, fg = font_colour, command = partial(self.quit_, new_situation))
-            btn.pack()
+            self.btn = Button(self, text = btn_text, bg = bgc, fg = ftc, borderwidth = 2, relief = "solid", highlightthickness=4, command = partial(self.quit_, new_situation))
+            self.btn.config(highlightcolor="#00ffff", highlightbackground="#00ffff")
+            self.btn.pack()
             
 
     def quit_(self, new_situation):
@@ -27,6 +29,27 @@ def load(situation = None):
     
 
 SITUATIONS = {
+    None: { # I named 'beginning' as None so that all the unassigned buttons use it
+        'story':
+"""You are standing in the middle of a country road overgrown with weeds.
+There is a forest behind you and a hill in front of you.
+At his feet there is a sign, partially obscured by a piece of dirty dirt
+mesh. You can't tell from here what's on the other
+side of the hill. You guess you're here coming out of the woods
+but you feel a pain in your head when you try to remember something.
+It looks like rain and you are wearing only a light tracksuit and flip flops.
+In your sweatshirt pocket you can smell a ham and cheese sandwich. The wind is menacing
+rocks the trees and the net on the sign breaks out encouragingly towards you.
+
+Whachu doin?
+""",
+        'buttons': [
+            ('you go up the hill and look around', 'situation_1'),
+            ('you approach the sign and break the net off it', 'situation_2'),
+            ('you eat a sandwich', 'situation_3'),
+            ('you turn back towards the forest', 'situation_4'),
+            ]
+        },
     'situation_1': {
         'story':                                                                        
 """The flip flops made your task a bit more difficult, but in the end you pretend
@@ -141,43 +164,24 @@ What are you doing?
             ('youre eating a sandwich', None),
             ]
         },
+}
 
-    None: { # I named 'beginning' as None so that all the unassigned buttons use it
-        'story':
-"""You are standing in the middle of a country road overgrown with weeds.
-There is a forest behind you and a hill in front of you.
-At his feet there is a sign, partially obscured by a piece of dirty dirt
-mesh. You can't tell from here what's on the other
-side of the hill. You guess you're here coming out of the woods
-but you feel a pain in your head when you try to remember something.
-It looks like rain and you are wearing only a light tracksuit and flip flops.
-In your sweatshirt pocket you can smell a ham and cheese sandwich. The wind is menacing
-rocks the trees and the net on the sign breaks out encouragingly towards you.
 
-Whachu doin?
-""",
-        'buttons': [
-            ('you go up the hill and look around', 'situation_1'),
-            ('you approach the sign and break the net off it', 'situation_2'),
-            ('you eat a sandwich', 'situation_3'),
-            ('you turn back towards the forest', 'situation_4'),
-            ]
-        },
-
-    }
 
 def beginning():
     start_button.destroy()
     load() # load the first story
 
 #WINDOW
-root = tk.Tk()
+root = Tk()
 root.geometry('500x500-500-300')
 root.title('The Adventure')
+root.config(background = bgc)
+
 
 
 #START
-start_button = tk.Button(root, text = "START", command = beginning)
+start_button = Button(root, text = "START", command = beginning, bg = bgc, fg = ftc)
 start_button.place(relx = .5, rely = .5, anchor = 'c')
 
 #THE LOOP
