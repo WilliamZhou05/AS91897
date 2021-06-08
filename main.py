@@ -1,23 +1,21 @@
-from tkinter import *
+import tkinter as tk
 from functools import partial # a quick way to make a callback function
 
-ftc = "#00ffff"
-bdc = "#00ffff"
-bgc = "#000000"
+font_colour = "#00ffff"
+border_colour = "#00ffff"
+background_colour = "#000000"
 
-class Situation:
-    def __init__(self, parent, story = '', buttons = []):
-        self.frame = Frame(parent, bg=bgc)
-        self.frame.grid()
-
-        self.story_lbl = Label(self, text = story, bg = bgc, fg = ftc, font = ("Play", 10))
-        self.story_lbl.pack()
+class Situation(tk.Frame):
+    def __init__(self, master = None, story = '', buttons = [], **kwargs):
+        tk.Frame.__init__(self, master, **kwargs)
+        story_lbl = tk.Label(self, text = story, bg = background_colour, fg = font_colour, justify = tk.LEFT, anchor = tk.NW, font = ("Play", 10))
+        story_lbl.pack()
 
         for btn_text, new_situation in buttons:
-            self.btn = Button(self, text = btn_text, bg = bgc, fg = ftc, borderwidth = 2, relief = "solid", highlightthickness=4, command = partial(self.quit_, new_situation))
-            self.btn.config(highlightcolor="#00ffff", highlightbackground="#00ffff")
-            self.btn.pack()
-            
+            btn = tk.Button(self, text = btn_text, fg = font_colour, command = partial(self.quit_, new_situation))
+            btn = tk.Button(self, text = btn_text, bg = background_colour, fg = font_colour, command = partial(self.quit_, new_situation))
+            btn.pack()
+
 
     def quit_(self, new_situation):
         self.destroy()
@@ -25,10 +23,108 @@ class Situation:
 
 def load(situation = None):
     frame = Situation(root, **SITUATIONS.get(situation))
+    frame.config(bg = background_colour)
     frame.pack()
     
-
 SITUATIONS = {
+    'situation_1': {
+        'story':                                                                        
+"""The flip flops made your task a bit more difficult, but in the end you pretend
+you become standing on the top of the hill. Before you stretches
+there is a huge field of cabbage, followed by a submerged one
+the countryside in gray. The cloudy sky seems to be overwhelming
+roofs of houses, and you start to feel uncomfortable ...
+What are you doing?
+""",
+        'buttons': [
+            ('you walk to the sign and break the net', 'situation_2v1'),
+            ('youre eating a sandwich', None),
+            ('youre turning back to the woods', None),
+            ('you are approaching a cabbage field', None) # using None until you fill in the correct value
+            ]
+        },
+    'situation_2': {
+        'story':
+"""The mesh is damp and full of soaked pieces of earth.
+You manage to pull it off with one hand movement, but it gets dirty
+mud on the occasion. Your eyes appear blurred,
+however, the inscription: Tomaszowice is still legible.
+What are you doing?
+""",
+        'buttons': [
+            ('you go up the hill and look around', None),
+            ('you eat a sandwich', None),
+            ('you turn back towards the forest', None)
+            ]
+        },
+    'situation_3': {
+        'story':
+"""The sandwich has a firm, firm consistency.
+The smell of fresh bread lifts you up,
+and the classic combination of ham and cheese is reminiscent of
+think of a house. You feel ready to go on!
+What are you doing?
+""",
+        'buttons': [
+            ('you go up the hill and look around', None),
+            ('you walk to the sign and break the net', None),
+            ('youre turning back to the woods', None),
+            ]
+        },
+    'situation_4': {
+        'story':
+""" You take a few steps towards the tree line, but
+some mysterious force prevents you from overcoming it.
+You feel powerless. You finally turn back
+towards the place where you just stood.
+What are you doing?
+""",
+        'buttons': [
+            ('you go up the hill and look around', None),
+            ('you go to the sign and break the net', 'situation_2v3'),
+            ('youre eating a sandwich', None),
+            ]
+        },
+    'situation_2v1': {
+        'story':
+"""The mesh is damp and full of soaked debris.
+You manage to pull it off with one hand movement, but it gets dirty
+mud on the occasion. Your eyes appear blurred,
+however, the inscription: Tomaszowice is still legible.
+What are you doing?
+""",
+        'buttons': [
+            ('youre eating a sandwich', None),
+            ('youre turning back to the woods', None),
+            ('you are approaching a cabbage field', None),
+            ]
+        },
+    'situation_2v2': {
+        'story':
+"""The mesh is damp and full of soaked pieces of earth.
+You manage to pull it off with one hand movement, but it gets dirty
+mud on the occasion. Your eyes appear blurred,
+however, the inscription: Tomaszowice is still legible.
+What are you doing?
+""",
+        'buttons': [
+            ('you go up the hill and look around', None),
+            ('youre turning back to the woods', None),
+            ]
+        },
+    'situation_2v3': {
+        'story':
+"""The mesh is damp and full of soaked pieces of earth.
+You manage to pull it off with one hand movement, but it gets dirty
+mud on the occasion. Your eyes appear blurred,
+however, the inscription: Tomaszowice is still legible.
+What are you doing?
+""",
+        'buttons': [
+            ('you go up the hill and look around', None),
+            ('youre eating a sandwich', None),
+            ]
+        },
     None: { # I named 'beginning' as None so that all the unassigned buttons use it
         'story':
 """You are standing in the middle of a country road overgrown with weeds.
@@ -40,7 +136,6 @@ but you feel a pain in your head when you try to remember something.
 It looks like rain and you are wearing only a light tracksuit and flip flops.
 In your sweatshirt pocket you can smell a ham and cheese sandwich. The wind is menacing
 rocks the trees and the net on the sign breaks out encouragingly towards you.
-
 Whachu doin?
 """,
         'buttons': [
@@ -50,139 +145,25 @@ Whachu doin?
             ('you turn back towards the forest', 'situation_4'),
             ]
         },
-    'situation_1': {
-        'story':                                                                        
-"""The flip flops made your task a bit more difficult, but in the end you pretend
-you become standing on the top of the hill. Before you stretches
-there is a huge field of cabbage, followed by a submerged one
-the countryside in gray. The cloudy sky seems to be overwhelming
-roofs of houses, and you start to feel uncomfortable ...
-
-What are you doing?
-""",
-        'buttons': [
-            ('you walk to the sign and break the net', 'situation_2v1'),
-            ('youre eating a sandwich', None),
-            ('youre turning back to the woods', None),
-            ('you are approaching a cabbage field', None) # using None until you fill in the correct value
-            ]
-        },
-
-    'situation_2': {
-        'story':
-"""The mesh is damp and full of soaked pieces of earth.
-You manage to pull it off with one hand movement, but it gets dirty
-mud on the occasion. Your eyes appear blurred,
-however, the inscription: Tomaszowice is still legible.
-
-What are you doing?
-""",
-        'buttons': [
-            ('you go up the hill and look around', None),
-            ('you eat a sandwich', None),
-            ('you turn back towards the forest', None)
-            ]
-        },
-
-    'situation_3': {
-        'story':
-"""The sandwich has a firm, firm consistency.
-The smell of fresh bread lifts you up,
-and the classic combination of ham and cheese is reminiscent of
-think of a house. You feel ready to go on!
-
-What are you doing?
-""",
-        'buttons': [
-            ('you go up the hill and look around', None),
-            ('you walk to the sign and break the net', None),
-            ('youre turning back to the woods', None),
-            ]
-        },
-
-    'situation_4': {
-        'story':
-""" You take a few steps towards the tree line, but
-some mysterious force prevents you from overcoming it.
-You feel powerless. You finally turn back
-towards the place where you just stood.
-
-What are you doing?
-""",
-        'buttons': [
-            ('you go up the hill and look around', None),
-            ('you go to the sign and break the net', 'situation_2v3'),
-            ('youre eating a sandwich', None),
-            ]
-        },
-
-
-    'situation_2v1': {
-        'story':
-
-"""The mesh is damp and full of soaked debris.
-You manage to pull it off with one hand movement, but it gets dirty
-mud on the occasion. Your eyes appear blurred,
-however, the inscription: Tomaszowice is still legible.
-
-What are you doing?
-""",
-        'buttons': [
-            ('youre eating a sandwich', None),
-            ('youre turning back to the woods', None),
-            ('you are approaching a cabbage field', None),
-            ]
-        },
-
-    'situation_2v2': {
-        'story':
-"""
-    The mesh is damp and full of soaked pieces of earth.
-You manage to pull it off with one hand movement, but it gets dirty
-mud on the occasion. Your eyes appear blurred,
-however, the inscription: Tomaszowice is still legible.
-
-What are you doing?
-""",
-        'buttons': [
-            ('you go up the hill and look around', None),
-            ('youre turning back to the woods', None),
-            ]
-        },
-
-    'situation_2v3': {
-        'story':
-"""The mesh is damp and full of soaked pieces of earth.
-You manage to pull it off with one hand movement, but it gets dirty
-mud on the occasion. Your eyes appear blurred,
-however, the inscription: Tomaszowice is still legible.
-
-What are you doing?
-""",
-        'buttons': [
-            ('you go up the hill and look around', None),
-            ('youre eating a sandwich', None),
-            ]
-        },
-}
-
-
-
+    }
 def beginning():
     start_button.destroy()
+    name_entry_box.destroy()
     load() # load the first story
 
 #WINDOW
-root = Tk()
+root = tk.Tk()
 root.geometry('500x500-500-300')
 root.title('The Adventure')
-root.config(background = bgc)
+root.config(background = background_colour)
 
-
+#NAME ENTRY
+name_entry_box = tk.Entry(root)
+name_entry_box.place(relx = .5, rely = .5, anchor = 'c')
 
 #START
-start_button = Button(root, text = "START", command = beginning, bg = bgc, fg = ftc)
-start_button.place(relx = .5, rely = .5, anchor = 'c')
+start_button = tk.Button(root, text = "START", command = beginning, bg = background_colour, fg = font_colour)
+start_button.place(relx = .5, rely = .6, anchor = 'c')
 
 #THE LOOP
 root.mainloop()
