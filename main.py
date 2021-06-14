@@ -1,6 +1,6 @@
 import tkinter as tk
-from functools import partial
-from tkinter import font # a quick way to make a callback function
+from functools import partial  # a quick way to make a callback function
+from tkinter import font #importing font
 #importing Tkinter
 
 font_colour = "#00ffff"
@@ -162,15 +162,17 @@ root.title('The Adventure')
 root.config(background = background_colour)
 
 #TEXT BOX
-title_text = tk.Label(root, text = "Welcome To The Adventure", bg = background_colour, fg = font_colour)
-title_text.place(relx = .5, rely = .4, anchor = 'c')
+title_text = tk.Label(root, text = "Welcome To The Adventure", bg = background_colour, fg = font_colour, font = ("bold", "20"))
+title_text.place(relx = .5, rely = .3, anchor = 'c')
+
+#NAME ENTRY BOX
+name_text = tk.Label(root, text = "Please enter your name below:", bg = background_colour, fg = font_colour)
+name_text.place(relx = .5, rely = .4, anchor = 'c')
 
 #NAME ENTRY
 name_entry_box = tk.Entry(root, highlightthickness = 2, bg = "#333333", fg = font_colour)
 name_entry_box.place(relx = .5, rely = .5, anchor = 'c')
 name_entry_box.config(highlightbackground = font_colour, highlightcolor= "blue")
-
-
 
 #START
 start_button = tk.Button(root, text = "START", command = beginning, bg = background_colour, fg = font_colour)
