@@ -15,7 +15,8 @@ class Situation(tk.Frame): #making a frame
         story_label.pack()#places the label
 
         for btn_text, new_situation in buttons:#creates buttons according to the defined "buttons" list
-            btn = tk.Button(self, text = btn_text, bg = background_colour, fg = font_colour, command = partial(self.quit_, new_situation)) #creates the button which when pressed loads the situation that is set as the button
+            btn = tk.Button(self, text = btn_text, highlightthickness = 2, bg = background_colour, fg = font_colour, command = partial(self.quit_, new_situation))
+            btn.config(highlightbackground = font_colour, highlightcolor= "blue") #creates the button which when pressed loads the situation that is set as the button
             btn.pack() #places the button
 
 
@@ -31,16 +32,7 @@ def load(situation = None):#defining the loading
 SITUATIONS = { #the story scenes
     None: { # I named 'beginning' as None so that all the unassigned buttons use it
         'story':
-"""You are standing in the middle of a country road overgrown with weeds.
-There is a forest behind you and a hill in front of you.
-At his feet there is a sign, partially obscured by a piece of dirty dirt
-mesh. You can't tell from here what's on the other
-side of the hill. You guess you're here coming out of the woods
-but you feel a pain in your head when you try to remember something.
-It looks like rain and you are wearing only a light tracksuit and flip flops.
-In your sweatshirt pocket you can smell a ham and cheese sandwich. The wind is menacing
-rocks the trees and the net on the sign breaks out encouragingly towards you.
-Whachu doin?
+"""Welcome to the city of 
 """,
         'buttons': [
             ('you go up the hill and look around', 'situation_1'),
@@ -153,6 +145,7 @@ def beginning(): #the beginning destroys the starter boxes
     title_text.destroy()
     start_button.destroy()
     name_entry_box.destroy()
+    name_text.destroy()
     load() # load the first story
 
 #WINDOW
@@ -175,8 +168,9 @@ name_entry_box.place(relx = .5, rely = .5, anchor = 'c')
 name_entry_box.config(highlightbackground = font_colour, highlightcolor= "blue")
 
 #START
-start_button = tk.Button(root, text = "START", command = beginning, bg = background_colour, fg = font_colour)
+start_button = tk.Button(root, text = "START", highlightthickness = 2, command = beginning, bg = background_colour, fg = font_colour)
 start_button.place(relx = .5, rely = .6, anchor = 'c')
+start_button.config(highlightbackground = font_colour, highlightcolor= "blue")
 
 #THE LOOP
 root.mainloop()
