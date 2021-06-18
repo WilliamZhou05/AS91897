@@ -32,7 +32,9 @@ def load(situation = None):#defining the loading
 SITUATIONS = { #the story scenes
     None: { # I named 'beginning' as None so that all the unassigned buttons use it
         'story':
-"""Welcome to the city of 
+"""Welcome to the city of Las Cerviz, you have one objective and one objective only. Survive.
+You wake up to the blaring announcment, neon cars speed around the city. You hear a loud rumbling sound, you see concrete walls rising from the ground surrounding the city.
+You look around, you can see a broken neon sign leading into a hotel
 """,
         'buttons': [
             ('you go up the hill and look around', 'situation_1'),
