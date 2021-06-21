@@ -32,81 +32,74 @@ def load(situation = None):#defining the loading
 SITUATIONS = { #the story scenes
     None: { # I named 'beginning' as None so that all the unassigned buttons use it
         'story':
-"""Welcome to the city of Las Cerviz, you have one objective and one objective only. Survive.
-You wake up to the blaring announcment, neon cars speed around the city. You hear a loud rumbling sound, you see concrete walls rising from the ground surrounding the city.
+""""Welcome to Las Cerviz, You have one objective and one objective only."
+                                                        "Survive"
+
+This announcment keeps playing as neon cars speed around the city. 
+You hear a loud rumbling sound,
+you see concrete walls rising from the ground surrounding the city.
 You look around, you can see a broken neon sign leading into a hotel
+and a gas station with a hovercar parked next to the building.
+What do you do?
 """,
         'buttons': [
-            ('you go up the hill and look around', 'situation_1'),
-            ('you approach the sign and break the net off it', 'situation_2'),
-            ('you eat a sandwich', 'situation_3'),
-            ('you turn back towards the forest', 'situation_4'),
+            ('Go into the hotel', 'situation_1'),
+            ('Walk to the wall', 'situation_2'),
+            ('Sit there and cry', 'situation_3'),
+            ('Go to the gas station', 'situation_4'),
             ]
         },
     'situation_1': {
         'story':                                                                        
-"""The flip flops made your task a bit more difficult, but in the end you pretend
-you become standing on the top of the hill. Before you stretches
-there is a huge field of cabbage, followed by a submerged one
-the countryside in gray. The cloudy sky seems to be overwhelming
-roofs of houses, and you start to feel uncomfortable ...
+"""The neon hotel sign flickers. 
+The hotel looks uninhabited, there are a bunch of broken cups and plates
+but nothing of much notice.
 What are you doing?
 """,
         'buttons': [
-            ('you walk to the sign and break the net', 'situation_2v1'),
-            ('youre eating a sandwich', None),
-            ('youre turning back to the woods', None),
-            ('you are approaching a cabbage field', None) # using None until you fill in the correct value
+            ('Keep going through the Hotel', 'situation_2v1'),
+            ('Leave the Hotel', None),
+            ('Stare at the plates', 'situation_2v3'),
             ]
         },
     'situation_2': {
         'story':
-"""The mesh is damp and full of soaked pieces of earth.
-You manage to pull it off with one hand movement, but it gets dirty
-mud on the occasion. Your eyes appear blurred,
-however, the inscription: Tomaszowice is still legible.
-What are you doing?
+"""The wall seems to be made of concrete, you try to punch it and to your suprise
+its made of concrete and now your hand hurts, what did you expect?
+What do you do now?
 """,
         'buttons': [
-            ('you go up the hill and look around', None),
-            ('you eat a sandwich', None),
-            ('you turn back towards the forest', None)
+            ('Go back to the start', None),
+            ('Sit there and cry', 'situation_3')
             ]
         },
     'situation_3': {
         'story':
-"""The sandwich has a firm, firm consistency.
-The smell of fresh bread lifts you up,
-and the classic combination of ham and cheese is reminiscent of
-think of a house. You feel ready to go on!
-What are you doing?
+"""You sit there and cry,
+an hour passes and you're still sitting there
+just crying
+why?
+just why?
 """,
         'buttons': [
-            ('you go up the hill and look around', None),
-            ('you walk to the sign and break the net', None),
-            ('youre turning back to the woods', None),
+            ('Get back up', None),
+            ('Cry some more', 'situation_3'),
+
             ]
         },
     'situation_4': {
         'story':
-""" You take a few steps towards the tree line, but
-some mysterious force prevents you from overcoming it.
-You feel powerless. You finally turn back
-towards the place where you just stood.
+"""You walk to the gas station, an invisible force stops you from going further
 What are you doing?
-""",
+""",#invisible wall cuz i dont wanna write this out :D
         'buttons': [
-            ('you go up the hill and look around', None),
-            ('you go to the sign and break the net', 'situation_2v3'),
-            ('youre eating a sandwich', None),
+            ('Go back to the start', None),
             ]
         },
     'situation_2v1': {
         'story':
-"""The mesh is damp and full of soaked debris.
-You manage to pull it off with one hand movement, but it gets dirty
-mud on the occasion. Your eyes appear blurred,
-however, the inscription: Tomaszowice is still legible.
+"""The hotel lights are flickering and you hear sirens outside.
+The hotel is dark inside 
 What are you doing?
 """,
         'buttons': [
@@ -129,6 +122,16 @@ What are you doing?
             ]
         },
     'situation_2v3': {
+        'story':
+""" You see plates.
+What did you expect?
+""",
+        'buttons': [
+            ('Look away from plates', 'situation_1'),
+
+            ]
+        },
+    'situation_2v4': {
         'story':
 """The mesh is damp and full of soaked pieces of earth.
 You manage to pull it off with one hand movement, but it gets dirty
