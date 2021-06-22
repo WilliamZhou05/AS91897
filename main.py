@@ -9,7 +9,7 @@ background_colour = "#000000"
 #selecting colours for certain objects
 
 class Situation(tk.Frame): #making a frame
-    def __init__(self, master = None, story = '', buttons = [], **kwargs):#sets up the main part of the code
+    def __init__(self, master = None, story = '', buttons = [], **kwargs):#sets up the main part of the code kwargs is a function that allows me to put as much story inside the code as possible
         tk.Frame.__init__(self, master, **kwargs)#creates the frame for the main code
         story_label = tk.Label(self, text = story, bg = background_colour, fg = font_colour, justify = tk.LEFT, anchor = tk.NW, font = ("Play", 10))#creates the label of the main story code
         story_label.pack()#places the label
@@ -33,11 +33,11 @@ SITUATIONS = { #the story scenes
     None: { # I named 'beginning' as None so that all the unassigned buttons use it
         'story':
 """"Welcome to Las Cerviz, You have one objective and one objective only."
-                                                        "Survive"
+                                                    "Survive"
 
 This announcment keeps playing as neon cars speed around the city. 
-You hear a loud rumbling sound,
-you see concrete walls rising from the ground surrounding the city.
+You hear a loud rumbling sound and you can see concrete walls rising
+from the ground surrounding the city.
 You look around, you can see a broken neon sign leading into a hotel
 and a gas station with a hovercar parked next to the building.
 What do you do?
@@ -59,7 +59,7 @@ What are you doing?
         'buttons': [
             ('Keep going through the Hotel', 'situation_2v1'),
             ('Leave the Hotel', None),
-            ('Stare at the plates', 'situation_2v3'),
+            ('Stare at the plates', 'situation_2v2'),
             ]
         },
     'situation_2': {
@@ -103,45 +103,46 @@ The hotel is dark inside
 What are you doing?
 """,
         'buttons': [
-            ('youre eating a sandwich', None),
-            ('youre turning back to the woods', None),
-            ('you are approaching a cabbage field', None),
+            ('Walk into a room', 'situation_3v1'),
+            ('Go back out', 'situation_1'),
+            ('Sit there and cry', 'situation_3v3'),
             ]
         },
     'situation_2v2': {
-        'story':
-"""The mesh is damp and full of soaked pieces of earth.
-You manage to pull it off with one hand movement, but it gets dirty
-mud on the occasion. Your eyes appear blurred,
-however, the inscription: Tomaszowice is still legible.
-What are you doing?
-""",
-        'buttons': [
-            ('you go up the hill and look around', None),
-            ('youre turning back to the woods', None),
-            ]
-        },
-    'situation_2v3': {
         'story':
 """ You see plates.
 What did you expect?
 """,
         'buttons': [
             ('Look away from plates', 'situation_1'),
-
             ]
         },
-    'situation_2v4': {
+    'situation_3v1': {
         'story':
-"""The mesh is damp and full of soaked pieces of earth.
-You manage to pull it off with one hand movement, but it gets dirty
-mud on the occasion. Your eyes appear blurred,
-however, the inscription: Tomaszowice is still legible.
-What are you doing?
+"""The room is completly black inside you cant see anything,
+you trip and fall while trying to walk in and the door closes on you, 
+you are now trapped in a black box.
+(The game isnt finished yet so please be patient and wait as this is the 
+whole story so far)
 """,
         'buttons': [
-            ('you go up the hill and look around', None),
-            ('youre eating a sandwich', None),
+            ('Give up and go back to the start', None),
+            ('Exit the game (sorry the games not finished yet)', None),
+            ]
+        },
+
+    'situation_3v3': {
+        'story':
+"""You sit there and cry,
+an hour passes and you're still sitting there
+just crying
+why?
+just why?
+""",
+        'buttons': [
+            ('Get back up', 'situation_2v1'),
+            ('Cry some more', 'situation_3v3'),
+
             ]
         },
 
